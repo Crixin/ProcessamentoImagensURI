@@ -1,0 +1,347 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <div class="container">
+        <div class="col-md-12 row">
+            <div class="col-md-12">
+                <div class="card text-white bg-secondary">
+                    <div class="card text-white" id="painel" style="height: 250px;">
+
+                    </div>
+                    <div class="card-body">
+                        <div class="col-md-12 row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>R:</label>
+                                    <input class="form-control" onchange="changeRGB();" type="number" min="0" max="255" value="0" id="R"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>G:</label>
+                                    <input class="form-control" onchange="changeRGB();" type="number" min="0" max="255" value="0" id="G"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>B:</label>
+                                    <input class="form-control" onchange="changeRGB();" type="number" min="0" max="255" value="0" id="B"/>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>R Normalizado:</label>
+                                    <input class="form-control" onchange="changeRGB();" type="number" min="0" max="255" value="0" id="NR"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>G Normalizado:</label>
+                                    <input class="form-control" onchange="changeRGB();" type="number" min="0" max="255" value="0" id="NG"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>B Normalizado:</label>
+                                    <input class="form-control" onchange="changeRGB();" type="number" min="0" max="255" value="0" id="NB"/>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>H:</label>
+                                    <input class="form-control" onchange="changeHSV();" type="number" min="0" max="360" value="0" id="H"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>S %:</label>
+                                    <input class="form-control" onchange="changeHSV();" type="number" step="0.01" min="0" max="100" value="0" id="S"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>V %:</label>
+                                    <input class="form-control" onchange="changeHSV();" type="number" step="0.01" min="0" max="100" value="0" id="V"/>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>C %:</label>
+                                    <input class="form-control" onchange="changeCMYK();" type="number" step="0.01" min="0" max="100" value="0" id="C"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>M %:</label>
+                                    <input class="form-control" onchange="changeCMYK();" type="number" step="0.01" min="0" max="100" value="0" id="M"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Y %:</label>
+                                    <input class="form-control" onchange="changeCMYK();" type="number" step="0.01" min="0" max="100" value="0" id="Y"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>K %:</label>
+                                    <input class="form-control" onchange="changeCMYK();" type="number" step="0.01" min="0" max="100" value="100" id="K"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 row">
+                            <button type="button" onclick="normalizar();" class="form-control btn-primary">Normalizar RGB</button>
+                        </div>
+                            <div class="col-md-4 mt-2 row">
+                            <button type="button" onclick="escalaCinza();" class="form-control btn-primary">Escala de cinza</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script >
+
+        function changeColorPainel() {
+            let r = parseInt($("#R").val());
+            let g = parseInt($("#G").val());
+            let b = parseInt($("#B").val());
+
+            $("#painel").css('background-color','rgb(' + r + ', ' + g + ',' + b + ')');
+        }
+
+        function changeRGB() {
+            let r = parseInt($("#R").val());
+            let g = parseInt($("#G").val());
+            let b = parseInt($("#B").val());
+
+            
+            rgb2hsv(r, g, b);
+            
+            rgb2cmyk(r, g, b);
+
+            changeColorPainel();
+
+        }   
+
+        function changeHSV(){
+            let h = parseInt($("#H").val());
+            let s = parseInt($("#S").val());
+            let v = parseInt($("#V").val());
+
+            hsvToRgb(h, s, v);
+
+            let r = parseInt($("#R").val());
+            let g = parseInt($("#G").val());
+            let b = parseInt($("#B").val());
+            rgb2cmyk(r, g, b);
+
+            changeColorPainel();
+
+        }
+
+        function changeCMYK(){
+            let c = parseInt($("#C").val());
+            let m = parseInt($("#M").val());
+            let y = parseInt($("#Y").val());
+            let k = parseInt($("#K").val());
+            
+            cmky2rgb(c, m, y, k);
+
+            let r = parseInt($("#R").val());
+            let g = parseInt($("#G").val());
+            let b = parseInt($("#B").val());
+
+            rgb2hsv(r, g, b);
+
+            changeColorPainel();
+
+        }
+
+        function escalaCinza() {
+            let r = parseInt($("#R").val());
+            let g = parseInt($("#G").val());
+            let b = parseInt($("#B").val());
+
+            e = (r + g + b) / 3;
+
+            setRGB(e, e, e);
+            changeColorPainel();
+
+        }
+
+        function normalizar() {
+            let r = parseInt($("#R").val());
+            let g = parseInt($("#G").val());
+            let b = parseInt($("#B").val());
+            console.log(r);
+            nr = r / (r + g + b);
+            ng = g / (r + g + b);
+            nb = b / (r + g + b);
+
+            setRGBN(nr || 0, ng || 0, nb || 0);
+            changeColorPainel();
+
+        }
+
+        function rgb2hsv(r, g, b) {
+
+            r = r /255;
+            g = g /255;
+            b = b /255;
+
+            v = Math.max(r, g, b);
+            s = (Math.max(r, g, b) - Math.min(r, g, b)) / Math.max(r, g, b);
+
+            if (Math.max(r, g, b) == r && g >= b){
+
+                h = 60 * ( (g - b) / (Math.max(r, g, b) - Math.min(r, g, b)) ) + 0
+            } else if (Math.max(r, g, b) == r  && g < b) {
+
+                h = 60 * ( (g - b) / (Math.max(r, g, b) - Math.min(r, g, b)) ) + 360;
+            } else if (Math.max(r, g, b) == g) {
+
+                h = 60 * ( (b - r) / (Math.max(r, g, b) - Math.min(r, g, b)) ) + 120;
+            } else if (Math.max(r, g, b) == b) {
+                h = (60 * ( (r - g) / (Math.max(r, g, b) - Math.min(r, g, b)) )) + 240;
+            }
+
+            setHSV(h || 0 , s * 100 || 0, v * 100 || 0);
+            return;
+        }   
+
+
+        function hsvToRgb(h, s, v) {
+            var r, g, b;
+            var i;
+            var f, p, q, t;
+            
+            h = Math.max(0, Math.min(360, h));
+            s = Math.max(0, Math.min(100, s));
+            v = Math.max(0, Math.min(100, v));
+            
+            s /= 100;
+            v /= 100;
+            
+            if(s == 0) {
+                r = g = b = v;
+                setRGB(Math.round(r * 255) || 0 , Math.round(g * 255) || 0, Math.round(b * 255) || 0)
+                return;
+            }
+            
+            h /= 60; 
+            i = Math.floor(h);
+            f = h - i; 
+            p = v * (1 - s);
+            q = v * (1 - s * f);
+            t = v * (1 - s * (1 - f));
+            
+            switch(i) {
+                case 0:
+                    r = v;
+                    g = t;
+                    b = p;
+                    break;
+            
+                case 1:
+                    r = q;
+                    g = v;
+                    b = p;
+                    break;
+            
+                case 2:
+                    r = p;
+                    g = v;
+                    b = t;
+                    break;
+            
+                case 3:
+                    r = p;
+                    g = q;
+                    b = v;
+                    break;
+            
+                case 4:
+                    r = t;
+                    g = p;
+                    b = v;
+                    break;
+            
+                default: // case 5:
+                    r = v;
+                    g = p;
+                    b = q;
+            }
+            
+            setRGB(Math.round(r * 255) || 0 , Math.round(g * 255) || 0, Math.round(b * 255) || 0)
+            return;
+
+        }
+
+
+        function rgb2cmyk (r, g, b){
+
+            r = r / 255;
+            g = g / 255;
+            b = b / 255;
+    
+            k = Math.min( 1 - r, 1 - g, 1 - b );
+            c = ( 1 - r - k ) / ( 1 - k );
+            m = ( 1 - g - k ) / ( 1 - k );
+            y = ( 1 - b - k ) / ( 1 - k );
+    
+            setCMYK(Math.round( c * 100 ) || 0, Math.round( m * 100 ) || 0, Math.round( y * 100 ) || 0, Math.round( k * 100 ) || 0);
+            return;
+	    }
+
+        function cmky2rgb(c, m, y, k){
+    
+            c = c / 100;
+            m = m / 100;
+            y = y / 100;
+            k = k / 100;
+    
+            r = 1 - Math.min( 1, c * ( 1 - k ) + k );
+            g = 1 - Math.min( 1, m * ( 1 - k ) + k );
+            b = 1 - Math.min( 1, y * ( 1 - k ) + k );
+      
+            setRGB(Math.round( r * 255 ) || 0, Math.round( g * 255 ) || 0, Math.round( b * 255 ) || 0)
+            return;
+        }
+
+
+        function setHSV(h, s, v) {
+            $("#H").val(parseFloat(h).toFixed(2))
+            $("#S").val(parseFloat(s).toFixed(2))
+            $("#V").val(parseFloat(v).toFixed(2))
+        }
+
+        function setCMYK(c, m, y, k) {
+            $("#C").val(parseFloat(c).toFixed(2))
+            $("#M").val(parseFloat(m).toFixed(2))
+            $("#Y").val(parseFloat(y).toFixed(2))
+            $("#K").val(parseFloat(k).toFixed(2))
+        }
+
+        function setRGB(r, g, b) {
+            $("#R").val(r)
+            $("#G").val(g)
+            $("#B").val(b)
+        }
+
+        function setRGBN(nr, ng, nb) {
+            $("#NR").val(nr)
+            $("#NG").val(ng)
+            $("#NB").val(nb)
+        }
+
+    </script>
+
+  </body>
+</html>
